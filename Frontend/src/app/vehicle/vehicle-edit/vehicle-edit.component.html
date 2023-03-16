@@ -1,0 +1,41 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Vehicle</li>
+  </ol>
+</nav>
+<h2>Vehicle Detail</h2>
+<div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+<form *ngIf="vehicle" #editForm="ngForm" (ngSubmit)="save()">
+
+  <div class="form-group mb-2" *ngIf="!isNew">
+    <label for="id" class="ps-1">ID</label>
+    <input required type="number" [(ngModel)]="vehicle.id" id="id" name="id" class="form-control">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="brand" class="ps-1">Brand</label>
+    <input required minlength="2" [(ngModel)]="vehicle.vehicleDetail.brand" id="brand" name="brand" class="form-control">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="model" class="ps-1">Model</label>
+    <input required minlength="1" [(ngModel)]="vehicle.vehicleDetail.model" id="model" name="model" class="form-control">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="manufactured" class="ps-1">Manufactured</label>
+    <input required type="date" [(ngModel)]="vehicle.vehicleDetail.manufactured" id="manufactured" name="manufactured" class="form-control">
+  </div>
+
+
+  <div class="btn-group mt-3" role="group">
+    <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </div>
+</form>
+
+<div *ngIf="serverError" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+  There was a <strong>server error</strong>! You should check in on some of those fields below.
+  <button (click)="serverError = false" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>

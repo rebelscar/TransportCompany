@@ -1,0 +1,35 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Transaction</li>
+  </ol>
+</nav>
+<h2>Transaction Detail</h2>
+<div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+<form *ngIf="transaction" #editForm="ngForm" (ngSubmit)="save()">
+
+  <div class="form-group mb-2" *ngIf="!isNew">
+    <label for="id" class="ps-1">ID</label>
+    <input required type="number" [(ngModel)]="transaction.id" id="id" name="id" class="form-control">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="moneyToPay" class="ps-1">Money to Pay</label>
+    <input required min="10" type="number" [(ngModel)]="transaction.moneyToPay" id="moneyToPay" name="moneyToPay" class="form-control">
+  </div>
+
+  <div class="form-group mb-2">
+    <label for="client" class="ps-1">Client ID</label>
+    <input required min="1" type="number" [(ngModel)]="transaction.client" id="client" name="client" class="form-control">
+  </div>
+
+  <div class="btn-group mt-3" role="group">
+    <button type="submit" class="btn btn-primary" [disabled]="!editForm.form.valid">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  </div>
+</form>
+
+<div *ngIf="serverError" class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+  There was a <strong>server error</strong>! You should check in on some of those fields below.
+  <button (click)="serverError = false" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>

@@ -1,0 +1,10 @@
+<h1 class="title">Welcome {{userName}}</h1>
+
+<div *ngIf="needsLogin" class="alert alert-warning">
+  You don't have the necessary rights for the requested action.
+</div>
+
+<button (click)="login()" class="btn btn-default">Login</button>
+<button (click)="logout()" class="btn btn-default">Logout</button>
+
+

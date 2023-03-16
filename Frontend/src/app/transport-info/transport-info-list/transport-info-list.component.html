@@ -1,0 +1,51 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Transport_Info</li>
+  </ol>
+</nav>
+<h2>Transport Info List</h2>
+<form #f="ngForm" class="form-inline">
+  <p><i>Filter by destination</i></p>
+  <div class="form-group">
+    <label for="destination">Destination:</label>
+    <input [(ngModel)]="filter.destination" id="destination" name="destination" class="form-control">
+  </div>
+  <button (click)="search()" [disabled]="!f?.valid" class="btn btn-primary mt-2 me-1">Search</button>
+  <a [routerLink]="['../transport_info', 'new' ]" class="btn btn-outline-success mt-2">New</a>
+</form>
+<div *ngIf="transportInfoList.length > 0">
+  <div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mt-2" id="datatable">
+      <thead>
+      <tr>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">Id</th>
+        <th (click)="sort('destination')"
+            class="border-top-0 sortable" scope="col">Destination</th>
+        <th (click)="sort('cargo')"
+            class="border-top-0 sortable" scope="col">Cargo</th>
+        <th (click)="sort('cost')"
+            class="border-top-0 sortable" scope="col">Cost</th>
+        <th (click)="sort('vehicle')"
+            class="border-top-0 sortable" scope="col">Vehicle ID</th>
+        <th class="border-top-0" scope="col" style="width:120px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of transportInfoList" [class.active]="item === selectedInfo">
+        <td>{{item.id}}</td>
+        <td>{{item.destination}}</td>
+        <td>{{item.cargo}}</td>
+        <td>€{{item.cost}}</td>
+        <td>{{item.vehicle}}</td>
+        <td style="white-space: nowrap">
+          <a [routerLink]="['../transport_info', item.id ]" class="btn btn-secondary">Edit</a>&nbsp;
+          <button (click)="delete(item)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

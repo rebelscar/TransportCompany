@@ -1,0 +1,45 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Transaction</li>
+  </ol>
+</nav>
+<h2>Transaction List</h2>
+<form #f="ngForm" class="form-inline">
+  <p><i>Filter by Client ID</i></p>
+  <div class="form-group">
+    <label for="clientId">Client ID:</label>
+    <input [(ngModel)]="filter.id" id="clientId" name="clientId" class="form-control">
+  </div>
+  <button (click)="search()" [disabled]="!f?.valid" class="btn btn-primary mt-2 me-1">Search</button>
+  <a [routerLink]="['../transactions', 'new' ]" class="btn btn-outline-success mt-2">New</a>
+</form>
+<div *ngIf="transactionList.length > 0">
+  <div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mt-2" id="datatable">
+      <thead>
+      <tr>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">ID</th>
+        <th (click)="sort('moneyToPay')"
+            class="border-top-0 sortable" scope="col">Money to Pay</th>
+        <th (click)="sort('client')"
+            class="border-top-0 sortable" scope="col">Client ID</th>
+        <th class="border-top-0" scope="col" style="width:120px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of transactionList" [class.active]="item === selectedTransaction">
+        <td>{{item.id}}</td>
+        <td>€{{item.moneyToPay}}</td>
+        <td>{{item.client}}</td>
+        <td style="white-space: nowrap">
+          <a [routerLink]="['../transactions', item.id ]" class="btn btn-secondary">Edit</a>&nbsp;
+          <button (click)="delete(item)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

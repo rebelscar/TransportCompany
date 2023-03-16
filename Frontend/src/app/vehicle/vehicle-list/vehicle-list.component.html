@@ -1,0 +1,48 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Vehicle</li>
+  </ol>
+</nav>
+<h2>Vehicle List</h2>
+<form #f="ngForm" class="form-inline">
+  <p><i>Filter by brand</i></p>
+  <div class="form-group">
+    <label for="brand">Brand:</label>
+    <input [(ngModel)]="filter.brand" id="brand" name="brand" class="form-control">
+  </div>
+  <button (click)="search()" [disabled]="!f?.valid" class="btn btn-primary mt-2 me-1">Search</button>
+  <a [routerLink]="['../vehicles', 'new' ]" class="btn btn-outline-success mt-2">New</a>
+</form>
+<div *ngIf="vehicleList.length > 0">
+  <div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mt-2" id="datatable">
+      <thead>
+      <tr>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">Id</th>
+        <th (click)="sort('vehicleDetail.brand')"
+            class="border-top-0 sortable" scope="col">Brand</th>
+        <th (click)="sort('vehicleDetail.model')"
+            class="border-top-0 sortable" scope="col">Model</th>
+        <th (click)="sort('vehicleDetail.manufactured')"
+            class="border-top-0 sortable" scope="col">Manufactured</th>
+        <th class="border-top-0" scope="col" style="width:120px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of vehicleList" [class.active]="item === selectedVehicle">
+        <td>{{item.id}}</td>
+        <td>{{item.vehicleDetail.brand}}</td>
+        <td>{{item.vehicleDetail.model}}</td>
+        <td>{{item.vehicleDetail.manufactured | date}}</td>
+        <td style="white-space: nowrap">
+          <a [routerLink]="['../vehicles', item.id ]" class="btn btn-secondary">Edit</a>&nbsp;
+          <button (click)="delete(item)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

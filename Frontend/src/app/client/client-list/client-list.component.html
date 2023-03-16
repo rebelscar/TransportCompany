@@ -1,0 +1,48 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active">Client</li>
+  </ol>
+</nav>
+<h2>Client List</h2>
+<form #f="ngForm" class="form-inline">
+  <p><i>Filter by first name</i></p>
+  <div class="form-group">
+    <label for="name">First Name:</label>
+    <input [(ngModel)]="filter.name" id="name" name="name" class="form-control">
+  </div>
+  <button (click)="search()" [disabled]="!f?.valid" class="btn btn-primary mt-2 me-1">Search</button>
+  <a [routerLink]="['../clients', 'new' ]" class="btn btn-outline-success mt-2">New</a>
+</form>
+<div *ngIf="clientList.length > 0">
+  <div *ngIf="feedback.length" class="alert alert-{{feedback.type}}">{{ feedback.message }}</div>
+  <div class="table-responsive">
+    <table class="table table-centered table-hover mt-2" id="datatable">
+      <thead>
+      <tr>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">Id</th>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">First Name</th>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">Last Name</th>
+        <th (click)="sort('id')"
+            class="border-top-0 sortable" scope="col">Age</th>
+        <th class="border-top-0 sortable" scope="col" style="width:120px"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of clientList" [class.active]="item === selectedClient">
+        <td>{{item.id}}</td>
+        <td>{{item.firstName}}</td>
+        <td>{{item.lastName}}</td>
+        <td>{{item.age}}</td>
+        <td style="white-space: nowrap">
+          <a [routerLink]="['../clients', item.id ]" class="btn btn-secondary">Edit</a>&nbsp;
+          <button (click)="delete(item)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
